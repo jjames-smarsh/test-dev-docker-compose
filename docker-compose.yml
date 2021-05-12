@@ -1,0 +1,32 @@
+control:
+  build: ./env
+  dockerfile: Dockerfile-control
+  hostname: ansible-control
+  links:
+    - centos-7
+    - devubu-18
+    - devubu-20
+  ports:
+    - "2200:22"
+  volumes:
+    - ./ansible:/home/ansible/ansible
+centos-7:
+  build: ./env
+  hostname: centos-7
+  links:
+    - devubu-18
+    - devubu-20
+  ports:
+    - "2201:22"
+devubu-18:
+  build: ./env
+  dockerfile: ./Dockerfile-Ubuntu18
+  hostname: devubu-18
+  ports:
+    - "2211:22"
+devubu-20:
+  build: ./env
+  dockerfile: ./Dockerfile-Ubuntu20
+  hostname: devubu-20
+  ports:
+    - "2212:22"

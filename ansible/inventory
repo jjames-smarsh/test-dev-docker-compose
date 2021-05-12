@@ -1,0 +1,9 @@
+[centos]
+devcnt6
+
+[ubuntu]
+devubu-18
+devubu-20
+
+[control]
+control ansible_connection=local
