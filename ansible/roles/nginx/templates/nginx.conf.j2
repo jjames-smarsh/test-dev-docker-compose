@@ -1,38 +1,34 @@
 # {{ ansible_managed }}
+{% if ansible_os_family == 'RedHat' %} 
+user              nginx;
+{% endif %}
+{% if ansible_os_family == 'Debian' %} 
 user              www-data;
+{% endif %}
 
-worker_processes  1;
+worker_processes  {{ ansible_processor_count }};
 pid        /var/run/nginx.pid;
-worker_rlimit_nofile 1024;
+
 
 events {
-    worker_connections  512;
+    worker_connections  {{ nginx_max_clients }};
 }
 
 
 http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
 
-        include /etc/nginx/mime.types;
-        default_type application/octet-stream;
-        tcp_nopush "on";
-        tcp_nodelay "on";
-        #keepalive_timeout "65";
-        access_log "/var/log/nginx/access.log";
-        error_log "/var/log/nginx/error.log";
-        server_tokens off;
-        types_hash_max_size 2048;
+    access_log {{ nginx_log_dir}}/{{ nginx_access_log_name}};
+    error_log {{ nginx_log_dir}}/{{ nginx_error_log_name}};
 
-        # https://philio.me/backend-server-host-name-as-a-custom-header-with-nginx/
-        add_header X-Backend-Server $hostname;
+{% for k,v in nginx_http_params.iteritems() %}
+    {{ k }}  {{ v }};
+{% endfor %}
 
-        # disable cache used for testing
-        add_header Cache-Control private;
-        add_header Last-Modified "";
-        sendfile off;
-        expires off;
-        etag off;
+    gzip on;
+    gzip_disable "msie6";
 
-        include /etc/nginx/conf.d/*.conf;
-        include /etc/nginx/sites-enabled/*;
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
 }
-

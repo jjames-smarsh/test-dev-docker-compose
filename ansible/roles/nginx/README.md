@@ -1,31 +1,138 @@
-Role Name
-=========
+nginx
+=====
 
-A brief description of the role goes here.
+This role installs and configures the nginx web server. The user can specify
+any http configuration parameters they wish to apply their site. Any number of
+sites can be added with configurations of your choice.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role requires Ansible 1.4 or higher and platform requirements are listed
+in the metadata file.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The variables that can be passed to this role and a brief description about
+them are as follows.
+
+    # The max clients allowed
+    nginx_max_clients: 512
+
+    # A hash of the http paramters. Note that any
+    # valid nginx http paramters can be added here.
+    # (see the nginx documentation for details.)
+    nginx_http_params:
+      sendfile: "on"
+      tcp_nopush: "on"
+      tcp_nodelay: "on"
+      keepalive_timeout: "65"
+      access_log: "/var/log/nginx/access.log"
+      error_log: "/var/log/nginx/error.log"
+
+    # A list of hashs that define the servers for nginx,
+    # as with http parameters. Any valid server parameters
+    # can be defined here.
+    nginx_sites:
+     - server:
+        file_name: foo
+        listen: 8080
+        server_name: localhost
+        root: "/tmp/site1"
+        location1: {name: /, try_files: "$uri $uri/ /index.html"}
+        location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
+     - server:
+        file_name: bar
+        listen: 9090
+        server_name: ansible
+        root: "/tmp/site2"
+        location1: {name: /, try_files: "$uri $uri/ /index.html"}
+        location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
+
+Examples
+========
+
+1) Install nginx with HTTP directives of choices, but with no sites
+configured:
+
+    - hosts: all
+      roles:
+      - {role: nginx,
+         nginx_http_params: { sendfile: "on",
+                              access_log: "/var/log/nginx/access.log"},
+                              nginx_sites: none }
+
+
+2) Install nginx with different HTTP directives than previous example, but no
+sites configured.
+
+    - hosts: all
+      roles:
+      - {role: nginx,
+         nginx_http_params: { tcp_nodelay: "on",
+                              error_log: "/var/log/nginx/error.log"},
+                              nginx_sites: none }
+
+Note: Please make sure the HTTP directives passed are valid, as this role
+won't check for the validity of the directives. See the nginx documentation
+for details.
+
+3) Install nginx and add a site to the configuration.
+
+    - hosts: all
+
+      roles:
+      - role: nginx,
+        nginx_http_params:
+          sendfile: "on"
+          access_log: "/var/log/nginx/access.log"
+          nginx_sites:
+          - server:
+             file_name: bar
+             listen: 8080
+             location1: {name: "/", try_files: "$uri $uri/ /index.html"}
+             location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
+
+Note: Each site added is represented by list of hashes, and the configurations
+generated are populated in `/etc/nginx/sites-available/` and have corresponding
+symlinks from `/etc/nginx/sites-enabled/`
+
+The file name for the specific site configurtaion is specified in the hash
+with the key "file_name", any valid server directives can be added to hash.
+For location directive add the key "location" suffixed by a unique number, the
+value for the location is hash, please make sure they are valid location
+directives.
+
+4) Install Nginx and add 2 sites (different method)
+
+    ---
+    - hosts: all
+      roles:
+        - role: nginx
+          nginx_http_params:
+            sendfile: "on"
+            access_log: "/var/log/nginx/access.log"
+          nginx_sites:
+           - server:
+              file_name: foo
+              listen: 8080
+              server_name: localhost
+              root: "/tmp/site1"
+              location1: {name: /, try_files: "$uri $uri/ /index.html"}
+              location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
+           - server:
+              file_name: bar
+              listen: 9090
+              server_name: ansible
+              root: "/tmp/site2"
+              location1: {name: /, try_files: "$uri $uri/ /index.html"}
+              location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+None
 
 License
 -------
@@ -35,4 +142,6 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Jeffrey James
+
+

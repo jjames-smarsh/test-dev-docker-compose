@@ -6,7 +6,7 @@ Host control
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
 
-Host test-dev1
+Host centos-7
   HostName 127.0.0.1
   Port 2201
   User ansible
@@ -14,7 +14,7 @@ Host test-dev1
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
 
-Host test-dev2
+Host devubu-18
   HostName 127.0.0.1
   Port 2211
   User ansible
@@ -22,7 +22,7 @@ Host test-dev2
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
 
-Host test-dev3
+Host devubu-20
   HostName 127.0.0.1
   Port 2212
   User ansible
