@@ -13,9 +13,6 @@ COPY ssh_config /home/ansible/.ssh/config
 COPY ansible /home/ansible/.ssh/id_rsa
 COPY ansible.pub /home/ansible/.ssh/id_rsa.pub
 COPY ansible.pub /home/ansible/.ssh/authorized_keys
-COPY copy-ssh-id.rb /home/ansible/copy-ssh-id.rb
-RUN chmod 755 /home/ansible/copy-ssh-id.rb
-COPY ansible-clients /home/ansible/ansible-clients
 
 RUN chown -R ansible:ansible /home/ansible/ && \
   echo "ansible ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers

@@ -37,8 +37,6 @@ COPY ssh_config /home/ansible/.ssh/config
 COPY ansible /home/ansible/.ssh/id_rsa
 COPY ansible.pub /home/ansible/.ssh/id_rsa.pub
 COPY ansible.pub /home/ansible/.ssh/authorized_keys
-COPY copy-ssh-id.rb /home/ansible/copy-ssh-id.rb
-COPY ansible-clients /home/ansible/ansible-clients
 RUN	chmod 700 /home/ansible/.ssh
 RUN chmod 600 /home/ansible/.ssh/authorized_keys
 RUN chown -R ansible:ansible /home/ansible/.ssh/
