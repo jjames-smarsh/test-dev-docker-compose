@@ -36,6 +36,16 @@ RUN update-rc.d ssh defaults
 # Configure sudo.
 RUN ex +"%s/^%sudo.*$/%sudo ALL=(ALL:ALL) NOPASSWD:ALL/g" -scwq! /etc/sudoers
 
+# Deploy ssh keys
+RUN mkdir /root/.ssh/
+COPY ssh_config /home/ansible/.ssh/config
+COPY ansible /home/ansible/.ssh/id_rsa
+COPY ansible.pub /home/ansible/.ssh/id_rsa.pub
+COPY ansible.pub /home/ansible/.ssh/authorized_keys
+RUN	chmod 700 /home/ansible/.ssh
+RUN chmod 600 /home/ansible/.ssh/authorized_keys
+RUN chown -R ansible:ansible /home/ansible/.ssh/
+
 # Generate and configure user keys.
 USER ansible
 RUN ssh-keygen -f ~/.ssh/id_ansible
