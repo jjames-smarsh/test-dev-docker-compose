@@ -4,7 +4,8 @@ ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup the default user.
-RUN useradd -rm -d /home/ansible -s /bin/bash -g root -G sudo ansible
+RUN groupadd ansible
+RUN useradd -rm -d /home/ansible -s /bin/bash -g ansible -G sudo ansible
 RUN echo 'ansible:ansible' | chpasswd
 USER ansible
 WORKDIR /home/ansible
