@@ -23,4 +23,3 @@ ansible-playbook playbooks/stack_status.yml
 docker-compose down
 docker-compose build
 docker-compose up -d
-
