@@ -18,9 +18,9 @@ RUN chown -R ansible:ansible /home/ansible/ && \
   echo "ansible ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Distribute vault pw just for this demo
-RUN echo "ansible" > /home/ansible/.vault_pass.txt && \
-  chmod 0600 /home/ansible/.vault_pass.txt && \
-  chown ansible /home/ansible/.vault_pass.txt
+# RUN echo "ansible" > /home/ansible/.vault_pass.txt && \
+#   chmod 0600 /home/ansible/.vault_pass.txt && \
+#   chown ansible /home/ansible/.vault_pass.txt
 RUN echo 'ansible:ansible' | chpasswd
 RUN chmod 0600 /home/ansible/.ssh/id_rsa
 
