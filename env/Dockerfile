@@ -1,7 +1,5 @@
 FROM centos/systemd
 
-MAINTAINER Oleg Snegirev <ol.snegirev@gmail.com>
-
 # Install packages
 RUN yum -y install openssh-server openssh-client sudo nano epel-release openssl certmonger; systemctl enable sshd.service
 
