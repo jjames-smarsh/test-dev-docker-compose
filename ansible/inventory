@@ -7,3 +7,7 @@ devubu-20
 
 [control]
 control ansible_connection=local
+
+[complete:children]
+centos
+ubuntu
