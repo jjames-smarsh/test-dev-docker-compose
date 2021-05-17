@@ -14,6 +14,14 @@ Host centos-7
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
 
+Host centos-6
+  HostName 127.0.0.1
+  Port 2202
+  User ansible
+  IdentityFile ./env/ansible
+  StrictHostKeyChecking no
+  UserKnownHostsFile=/dev/null
+
 Host devubu-18
   HostName 127.0.0.1
   Port 2211
