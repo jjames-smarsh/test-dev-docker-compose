@@ -12,7 +12,7 @@ docker-compose up -d
 ###
 cat env/ssh_host_config >> ~/.ssh/config
 
-### do this from within the repo root
+### Do this from within the repo root
 ssh control 
 
 ### Running the example playbooks:
