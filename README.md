@@ -21,5 +21,7 @@ ansible-playbook playbooks/stack_status.yml
 
 ### How to re-build Docker images:
 docker-compose down
+###
 docker-compose build
+###
 docker-compose up -d
