@@ -8,7 +8,9 @@ The control node is Ubuntu and target "hosts" are centos-7, ubuntu-18 and ubuntu
 ### Change into the root of your cloned repo and run the following commands
 chmod 0600 ./env/ansible*
 ###
+```
 docker-compose up -d
+```
 ###
 cat env/ssh_host_config >> ~/.ssh/config
 
