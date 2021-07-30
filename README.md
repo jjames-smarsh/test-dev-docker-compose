@@ -7,7 +7,9 @@ The control node is Ubuntu and target "hosts" are centos-7, ubuntu-18 and ubuntu
 ### Getting Started
 ### Change into the root of your cloned repo and run the following commands
 chmod 0600 ./env/ansible*
+###
 docker-compose up -d
+###
 cat env/ssh_host_config >> ~/.ssh/config
 
 ### do this from within the repo root
@@ -15,7 +17,9 @@ ssh control
 
 ### Running the example playbooks:
 cd ansible/
+###
 ansible-playbook site.yml
+###
 ansible-playbook playbooks/stack_status.yml
 
 
